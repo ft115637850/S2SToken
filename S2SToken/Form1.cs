@@ -74,22 +74,18 @@ namespace S2SToken
                 return;
             }
 
-            var existed = false;
-            foreach (var info in _history.History)
+            var existed = _history.History.Find(x => x.Alias == alias);
+            if (existed != null)
             {
-                if (info.Alias == alias)
-                {
-                    info.Authority = authority;
-                    info.ClientId = clientId;
-                    info.ClientSecret = clientSecret;
-                    info.ResourceId = resourceId;
-
-                    existed = true;
-                    break;
-                }
+                var result = MessageBox.Show($"Are you sure to overwrite {alias}?", "Confirm", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.Cancel)
+                    return;
+                existed.Authority = authority;
+                existed.ClientId = clientId;
+                existed.ClientSecret = clientSecret;
+                existed.ResourceId = resourceId;
             }
-
-            if (!existed)
+            else
             {
                 _history.History.Add(new GenerateInfo
                 {
@@ -127,7 +123,7 @@ namespace S2SToken
                 return;
 
             var selectedAlias = Convert.ToString(this.listBox1.SelectedItem).Trim();
-            var result = MessageBox.Show($"Are you sure to delete {selectedAlias}", "Confirm", MessageBoxButtons.OKCancel);
+            var result = MessageBox.Show($"Are you sure to delete {selectedAlias}?", "Confirm", MessageBoxButtons.OKCancel);
             
             if (result == DialogResult.Cancel)
                 return;
