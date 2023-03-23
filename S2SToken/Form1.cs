@@ -70,7 +70,7 @@ namespace S2SToken
                 string.IsNullOrEmpty(resourceId) ||
                 string.IsNullOrEmpty(authority))
             {
-                MessageBox.Show("Information missing");
+                MessageBox.Show("Information missing!");
                 return;
             }
 
